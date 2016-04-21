@@ -36,7 +36,11 @@ def get_random_wikipedia_article():
             f = urllib2.urlopen(req)
             while not articletitle:
                 line = f.readline()
-                result = re.search(r'title="Edit this page" href="/w/index.php\?title=(.*)\&amp;action=edit" /\>', line)
+                # my try
+                result = re.search(r'title="Edit this page" href="/w/index.php\?title=(.*)\&amp;action=edit"\/?', line)
+                
+                # comment out the original code, wrong when I implement it!!!
+                #result = re.search(r'title="Edit this page" href="/w/index.php\?title=(.*)\&amp;action=edit" /\>', line)
                 if (result):
                     articletitle = result.group(1)
                     break
@@ -56,6 +60,7 @@ def get_random_wikipedia_article():
         print 'downloaded %s. parsing...' % articletitle
 
         try:
+            
             all = re.search(r'<text.*?>(.*)</text', all, flags=re.DOTALL).group(1)
             all = re.sub(r'\n', ' ', all)
             all = re.sub(r'\{\{.*?\}\}', r'', all)
